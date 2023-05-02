@@ -291,7 +291,7 @@ export default {
           <div class="w-full flex flex-col h-full">
             <p class="bg-green-500 text-white text-center p-2 rounded-t-md">Positive</p>
             <div class="overflow-hidden w-full bg-gray-100 rounded-md p-4 gap-4 flex-col flex h-full">
-              <input class="w-full rounded-md bg-gray-200 outline-none p-2" type="text" @keyup.enter="addPosExample"
+              <input class="w-full rounded-md bg-gray-200 outline-none p-2" type="text" @keypress.enter="addPosExample"
                 v-model="positive_input">
               <div class="gap-x-2 overflow-y-scroll flex-wrap flex ">
                 <template v-for="(example, index) in examples.slice().reverse()">
@@ -308,7 +308,7 @@ export default {
           <div class="w-full flex flex-col h-full">
             <p class="bg-red-500 text-white text-center p-2 rounded-t-md">Negative</p>
             <div class="overflow-hidden w-full bg-gray-100 rounded-md p-4 gap-4 flex-col flex h-full">
-              <input class="w-full rounded-md bg-gray-200 outline-none p-2" type="text" @keyup.enter="addNegExample"
+              <input class="w-full rounded-md bg-gray-200 outline-none p-2" type="text" @keypress.enter ="addNegExample"
                 v-model="negative_input">
               <div class="gap-x-2  overflow-y-scroll flex-wrap flex w-[calc(100%+7px)]">
                 <template v-for="example in examples.slice().reverse()">
