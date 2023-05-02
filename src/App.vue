@@ -368,7 +368,7 @@ export default {
       <div class="flex flex-col items-center justify-start gap-4 p-2">
         <p class="text-gray-400">Test set</p>
         <input :value="test_text" @input="e => updateTestInput(e)" class="bg-gray-200 p-4 rounded-md outline-none w-[60%]"
-          type="search" placeholder="Type a new message">
+          type="text" enterkeyhint="done" placeholder="Type a new message">
       </div>
       <div class="flex flex-col items-center justify-start gap-4 p-2">
         <p class="text-gray-400">Word likelihood</p>
