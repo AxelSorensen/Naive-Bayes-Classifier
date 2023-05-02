@@ -20,7 +20,8 @@ export default {
       routines: [],
       routine: null,
       json: null,
-      routineTitle: ''
+      routineTitle: '',
+      routineNameError: false,
     }
   },
 
@@ -103,6 +104,7 @@ export default {
       this.comment = ''
       this.title = ''
       this.steps = []
+      this.routineTitle = ''
       this.menu = 'create_routine'
 
     },
@@ -154,8 +156,8 @@ export default {
 }
 </script>
 <template>
-  <div class="grid grid-rows-[50px,1fr] overflow-hidden h-[calc(100dvh)] grid-cols-[300px,1fr]">
-    <div class="bg-gray-100 flex justify-between items-center col-span-2 w-screen border-b-2">
+  <div class="grid grid-rows-[50px,1fr] overflow-hidden h-[calc(100dvh)] grid-cols-[1fr] md:grid-cols-[300px,1fr]">
+    <div class="bg-gray-100 flex justify-between items-center md:col-span-2 w-screen border-b-2">
 
       <div @click="sidebar = !sidebar" class="group p-4 collapse md:visible hover:cursor-pointer">
         <font-awesome-icon v-if="sidebar" icon="fa-solid fa-xmark" class="text-gray-500 group-hover:text-gray-700"
@@ -170,7 +172,7 @@ export default {
       </div>
 
     </div>
-    <div v-if="sidebar" class="overflow-hidden bg-gray-100">
+    <div v-if="sidebar" class="overflow-hidden md:visible collapse bg-gray-100">
       <div v-if="menu == 'run_routine'"
         class=" grid grid-rows-[min-content,3fr,min-content] grid-cols-1 justify-start w-full p-4 gap-4 justify-between h-full">
         <div @click="menu = 'home'"
@@ -219,10 +221,11 @@ export default {
 
             <div v-for="routine in routines" class="flex items-center gap-4">
               <div @click="() => setRoutine(routine)"
-                class="flex w-full gap-2 cursor-pointer bg-gray-200 border-2 hover:bg-gray-300 hover:border-gray-300 text-gray-400 justify-between items-center w-full p-2 px-4 flex rounded-md group">
-                <p class="group-hover:text-gray-600">{{ routine.name }}</p>
+                class="flex w-full gap-2 cursor-pointer bg-gray-200 border-2 hover:bg-gray-300 hover:border-gray-300 text-gray-400 justify-start items-center w-full p-2 px-4 flex rounded-md group">
                 <font-awesome-icon icon="fa-solid fa-play" class=" text-gray-400 group-hover:text-blue-500 cursor-pointer"
                   size="md" />
+                <p class="line-clamp group-hover:text-gray-600">{{ routine.name }}</p>
+               
               </div>
               <div @click="() => downloadRoutine(routine)">
                 <font-awesome-icon icon="fa-solid fa-download" class="text-gray-400 hover:text-blue-500 cursor-pointer"
@@ -286,17 +289,19 @@ export default {
             @click="addStep">Add step</div>
           <div class="flex gap-4">
             <input v-model="routineTitle"
-              class="w-full bg-gray-200 resize-none rounded-md outline-none p-2 text-sm w-[200%]"
-              placeholder="Routine Name" />
-            <div :class="{'hover:bg-purple-600 bg-purple-500 text-white w-full text-center p-2 rounded-md cursor-pointer' : routineTitle, 'bg-gray-300 text-gray-400 w-full text-center p-2 rounded-md ' : !routineTitle}"
-              @click="() => {if(routineTitle) {saveRoutine()}}">Save</div>
+              class="w-full bg-gray-200 resize-none rounded-md outline-none p-2 border-2 border-gray-200 text-sm w-[200%]" :class="{'border-2 border-red-400' : routineNameError}"
+              placeholder="Routine Name" @input="routineNameError = false"/>
+            <div class="hover:bg-purple-600 bg-purple-500 text-white w-full text-center p-2 rounded-md cursor-pointer"
+              @click="() => {if(routineTitle) {saveRoutine()} else {
+                routineNameError = true;
+              }}">Save</div>
 
           </div>
         </div>
       </div>
     </div>
     <div class="grid grid-rows-[6fr,1fr,1fr,1fr] p-4 gap-4 divide-y overflow-hidden grid-cols-[1fr]"
-      :class="{ 'col-span-2': !sidebar }">
+      :class="{ 'md:col-span-2': !sidebar }">
       <div class="flex flex-col items-center gap-4 overflow-hidden">
         <p class=" text-gray-400">Training Examples</p>
         <div class="w-full flex flex-row h-full overflow-hidden gap-4">
