@@ -174,9 +174,9 @@ export default {
     </div>
     <div v-if="sidebar" class="overflow-hidden md:visible collapse bg-gray-100">
       <div v-if="menu == 'run_routine'"
-        class=" grid grid-rows-[min-content,3fr,min-content] grid-cols-1 justify-start w-full p-4 gap-4 justify-between h-full">
+        class=" grid grid-rows-[min-content,3fr,min-content] grid-cols-1 w-full p-4 gap-4 justify-between h-full">
         <div @click="menu = 'home'"
-          class=" absolute flex items-center justify-center w-10 m-[-8px]  h-10 absolute group cursor-pointer">
+          class=" absolute flex items-center justify-center w-10 m-[-8px]  h-10 group cursor-pointer">
           <font-awesome-icon icon="fa-solid fa-chevron-left" class=" text-gray-400 group-hover:text-gray-500" size="md" />
         </div>
         <p class="text-center text-gray-500">{{ routine.name }}</p>
@@ -209,7 +209,7 @@ export default {
         </div>
       </div>
       <div v-if="menu == 'home'"
-        class=" grid grid-rows-[min-content,1fr,min-content] grid-cols-1 justify-start w-full p-4 gap-4 justify-between h-full">
+        class=" grid grid-rows-[min-content,1fr,min-content] grid-cols-1 w-full p-4 gap-4 justify-between h-full">
         <p class="text-center text-gray-500">Routines</p>
         <div v-if="routines.length == 0" class="items-center flex flex-col gap-4">
           <p class="text-sm text-center text-gray-400">No routines available<br><b>Import</b> or <b>Create</b> a routine
@@ -221,7 +221,7 @@ export default {
 
             <div v-for="routine in routines" class="flex items-center gap-4">
               <div @click="() => setRoutine(routine)"
-                class="flex w-full gap-4 cursor-pointer bg-gray-200 border-2 hover:bg-gray-300 hover:border-gray-300 text-gray-400 justify-between items-center w-full p-2 px-4 flex rounded-md group">
+                class="flex w-full gap-4 cursor-pointer bg-gray-200 border-2 hover:bg-gray-300 hover:border-gray-300 text-gray-400 justify-between items-center p-2 px-4 rounded-md group">
                 <font-awesome-icon icon="fa-solid fa-play" class=" text-gray-400 group-hover:text-blue-500 cursor-pointer"
                   size="md" />
                 <p class="line-clamp group-hover:text-gray-600">{{ routine.name }}</p>
@@ -251,7 +251,7 @@ export default {
         </div>
       </div>
       <div v-if="menu == 'create_routine'"
-        class="grid grid-rows-[min-content,3fr,1fr] grid-cols-1 justify-start w-full p-4 gap-4 justify-between h-full">
+        class="grid grid-rows-[min-content,3fr,1fr] grid-cols-1 w-full p-4 gap-4 justify-between h-full">
         <div @click="menu = 'home'"
           class="flex items-center justify-center w-10 m-[-8px]  h-10 absolute group cursor-pointer">
           <font-awesome-icon icon="fa-solid fa-chevron-left" class=" text-gray-400 group-hover:text-gray-500 "
@@ -268,7 +268,7 @@ export default {
             </div>
             <div v-for="step in steps" class="flex w-full items-center gap-2">
               <div
-                :class="{ 'cursor-pointer border-2 border-blue-500 bg-blue-200 hover:bg-blue-200 w-full text-center p-2 px-4 flex justify-between rounded-md': selectedStepId == step.id, 'bg-gray-200 w-full text-center p-2 px-4 flex justify-between rounded-md cursor-pointer hover:bg-gray-300 hover:border-gray-300 border-2 text-gray-600 border-gray-200': selectedStepId != step.id }"
+                :class="{ 'cursor-pointer border-2 border-blue-500 bg-blue-200 hover:bg-blue-200 text-gray-600  w-full text-center p-2 px-4 flex justify-start rounded-md gap-2': selectedStepId == step.id, 'bg-gray-200 w-full text-center p-2 px-4 flex justify-start gap-2 rounded-md cursor-pointer hover:bg-gray-300 hover:border-gray-300 border-2 hover:text-gray-600 text-gray-400  border-gray-200': selectedStepId != step.id }"
                 @click="() => setStep(step)">
                 <p>{{ step.id + 1 }}.</p>
                 <p>{{ step.stepTitle }}</p>
@@ -293,7 +293,7 @@ export default {
               class="w-full bg-gray-200 resize-none rounded-md outline-none p-2 border-2 border-gray-200 text-sm"
               :class="{ 'border-2 border-red-400': routineNameError }" placeholder="Routine Name"
               @input="routineNameError = false" />
-            <div class="hover:bg-purple-600 w-28 bg-purple-500 text-white w-full text-center p-2 rounded-md cursor-pointer"
+            <div class="hover:bg-purple-600 w-28 bg-purple-500 text-white text-center p-2 rounded-md cursor-pointer"
               @click="() => {
                   if (routineTitle) { saveRoutine() } else {
                     routineNameError = true;
