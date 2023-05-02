@@ -55,8 +55,16 @@ export default {
     isNegative(word) {
       return this.data?.logLikelihood[word.toLowerCase()]?.['1'] < this.data?.logLikelihood[word.toLowerCase()]?.['0']
     },
-    updateInput(e) {
+    updateTestInput(e) {
       this.test_text = e.target.value
+      this.run_bayes()
+    },
+    updatePosInput(e) {
+      this.positive_input = e.target.value
+      this.run_bayes()
+    },
+    updateNegInput(e) {
+      this.negative_input = e.target.value
       this.run_bayes()
     },
     addStep() {
@@ -295,8 +303,8 @@ export default {
           <div class="w-full flex flex-col h-full">
             <p class="bg-green-500 text-white text-center p-2 rounded-t-md">Positive</p>
             <div class="overflow-hidden w-full bg-gray-100 rounded-md p-4 gap-4 flex-col flex h-full">
-              <input class="w-full rounded-md bg-gray-200 outline-none p-2" type="search" @keydown.enter="addPosExample"
-                v-model="positive_input">
+              <input class="w-full rounded-md bg-gray-200 outline-none p-2" type="search" @keydown.enter="addPosExample" enterkeyhint="done"
+                :value="positive_input" @input="e => updatePosInput(e)">
               <div class="gap-x-2 overflow-y-scroll flex-wrap flex ">
                 <template v-for="(example, index) in examples.slice().reverse()">
                   <div v-if="example.class == 1"
@@ -312,8 +320,8 @@ export default {
           <div class="w-full flex flex-col h-full">
             <p class="bg-red-500 text-white text-center p-2 rounded-t-md">Negative</p>
             <div class="overflow-hidden w-full bg-gray-100 rounded-md p-4 gap-4 flex-col flex h-full">
-              <input class="w-full rounded-md bg-gray-200 outline-none p-2" type="search" @keydown.enter = "addNegExample"
-                v-model="negative_input">
+              <input class="w-full rounded-md bg-gray-200 outline-none p-2" type="search" @keydown.enter = "addNegExample" enterkeyhint="done"
+                :value="negative_input" @input="e => updateNegInput(e)">
               <div class="gap-x-2  overflow-y-scroll flex-wrap flex w-[calc(100%+7px)]">
                 <template v-for="example in examples.slice().reverse()">
                   <div v-if="example.class == 0"
@@ -351,7 +359,7 @@ export default {
       <div class="flex flex-col items-center justify-start gap-4 p-2">
         <p class="text-gray-400">Test set</p>
         <input :value="test_text"
-        @input="e => updateInput(e)" class="bg-gray-200 p-4 rounded-md outline-none w-[60%]" type="search"
+        @input="e => updateTestInput(e)" class="bg-gray-200 p-4 rounded-md outline-none w-[60%]" type="search"
           placeholder="Type a new message">
       </div>
       <div class="flex flex-col items-center justify-start gap-4 p-2">
