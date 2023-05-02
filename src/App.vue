@@ -290,7 +290,7 @@ export default {
             @click="addStep">Add step</div>
           <div class="flex gap-4">
             <input v-model="routineTitle"
-              class="w-full bg-gray-200 resize-none rounded-md outline-none p-2 border-2 border-gray-200 text-sm w-[200%]"
+              class="w-full bg-gray-200 resize-none rounded-md outline-none p-2 border-2 border-gray-200 text-sm w-[300%]"
               :class="{ 'border-2 border-red-400': routineNameError }" placeholder="Routine Name"
               @input="routineNameError = false" />
             <div class="hover:bg-purple-600 bg-purple-500 text-white w-full text-center p-2 rounded-md cursor-pointer"
