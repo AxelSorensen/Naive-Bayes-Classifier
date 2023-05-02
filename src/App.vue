@@ -102,7 +102,7 @@ export default {
     },
     createRoutine() {
       this.comment = ''
-      this.title = ''
+      this.stepTitle = ''
       this.steps = []
       this.routineTitle = ''
       this.menu = 'create_routine'
@@ -221,11 +221,11 @@ export default {
 
             <div v-for="routine in routines" class="flex items-center gap-4">
               <div @click="() => setRoutine(routine)"
-                class="flex w-full gap-2 cursor-pointer bg-gray-200 border-2 hover:bg-gray-300 hover:border-gray-300 text-gray-400 justify-start items-center w-full p-2 px-4 flex rounded-md group">
+                class="flex w-full gap-4 cursor-pointer bg-gray-200 border-2 hover:bg-gray-300 hover:border-gray-300 text-gray-400 justify-between items-center w-full p-2 px-4 flex rounded-md group">
                 <font-awesome-icon icon="fa-solid fa-play" class=" text-gray-400 group-hover:text-blue-500 cursor-pointer"
                   size="md" />
                 <p class="line-clamp group-hover:text-gray-600">{{ routine.name }}</p>
-               
+
               </div>
               <div @click="() => downloadRoutine(routine)">
                 <font-awesome-icon icon="fa-solid fa-download" class="text-gray-400 hover:text-blue-500 cursor-pointer"
@@ -262,7 +262,8 @@ export default {
         <div class="flex-col flex overflow-scroll w-[calc(100%+7px)] gap-2 place-items-start" ref="scrollToMe">
           <div class="flex flex-col w-full gap-2 h-full">
             <div v-if="steps.length == 0" class="items-center flex flex-col gap-4 w-full overflow-hidden">
-              <p class="text-sm text-center text-gray-400">No steps added<br>Make a <b>Add</b> and <b>Add</b> a step below</p>
+              <p class="text-sm text-center text-gray-400">No steps added<br>Make a <b>Add</b> and <b>Add</b> a step below
+              </p>
               <font-awesome-icon icon="fa-solid fa-arrow-down" class="text-gray-400" size="md" />
             </div>
             <div v-for="step in steps" class="flex w-full items-center gap-2">
@@ -289,12 +290,15 @@ export default {
             @click="addStep">Add step</div>
           <div class="flex gap-4">
             <input v-model="routineTitle"
-              class="w-full bg-gray-200 resize-none rounded-md outline-none p-2 border-2 border-gray-200 text-sm w-[200%]" :class="{'border-2 border-red-400' : routineNameError}"
-              placeholder="Routine Name" @input="routineNameError = false"/>
+              class="w-full bg-gray-200 resize-none rounded-md outline-none p-2 border-2 border-gray-200 text-sm w-[200%]"
+              :class="{ 'border-2 border-red-400': routineNameError }" placeholder="Routine Name"
+              @input="routineNameError = false" />
             <div class="hover:bg-purple-600 bg-purple-500 text-white w-full text-center p-2 rounded-md cursor-pointer"
-              @click="() => {if(routineTitle) {saveRoutine()} else {
-                routineNameError = true;
-              }}">Save</div>
+              @click="() => {
+                  if (routineTitle) { saveRoutine() } else {
+                    routineNameError = true;
+                  }
+                }">Save</div>
 
           </div>
         </div>
@@ -308,8 +312,8 @@ export default {
           <div class="w-full flex flex-col h-full">
             <p class="bg-green-500 text-white text-center p-2 rounded-t-md">Positive</p>
             <div class="overflow-hidden w-full bg-gray-100 rounded-md p-4 gap-4 flex-col flex h-full">
-              <input class="w-full rounded-md bg-gray-200 outline-none p-2" type="search" @keydown.enter="addPosExample" enterkeyhint="done"
-                :value="positive_input" @input="e => updatePosInput(e)">
+              <input class="w-full rounded-md bg-gray-200 outline-none p-2" type="search" @keydown.enter="addPosExample"
+                enterkeyhint="done" :value="positive_input" @input="e => updatePosInput(e)">
               <div class="gap-x-2 overflow-y-scroll flex-wrap flex ">
                 <template v-for="(example, index) in examples.slice().reverse()">
                   <div v-if="example.class == 1"
@@ -325,8 +329,8 @@ export default {
           <div class="w-full flex flex-col h-full">
             <p class="bg-red-500 text-white text-center p-2 rounded-t-md">Negative</p>
             <div class="overflow-hidden w-full bg-gray-100 rounded-md p-4 gap-4 flex-col flex h-full">
-              <input class="w-full rounded-md bg-gray-200 outline-none p-2" type="search" @keydown.enter = "addNegExample" enterkeyhint="done"
-                :value="negative_input" @input="e => updateNegInput(e)">
+              <input class="w-full rounded-md bg-gray-200 outline-none p-2" type="search" @keydown.enter="addNegExample"
+                enterkeyhint="done" :value="negative_input" @input="e => updateNegInput(e)">
               <div class="gap-x-2  overflow-y-scroll flex-wrap flex w-[calc(100%+7px)]">
                 <template v-for="example in examples.slice().reverse()">
                   <div v-if="example.class == 0"
@@ -363,13 +367,12 @@ export default {
       </div>
       <div class="flex flex-col items-center justify-start gap-4 p-2">
         <p class="text-gray-400">Test set</p>
-        <input :value="test_text"
-        @input="e => updateTestInput(e)" class="bg-gray-200 p-4 rounded-md outline-none w-[60%]" type="search"
-          placeholder="Type a new message">
+        <input :value="test_text" @input="e => updateTestInput(e)" class="bg-gray-200 p-4 rounded-md outline-none w-[60%]"
+          type="search" placeholder="Type a new message">
       </div>
       <div class="flex flex-col items-center justify-start gap-4 p-2">
         <p class="text-gray-400">Word likelihood</p>
-        <div class="w-full flex flex-wrap justify-center gap-y-2">
+        <div class="w-full flex flex-wrap justify-center gap-y-2 break-all">
           <div
             :class="{ 'bg-gray-400 text-white px-2 mx-1 tooltip': inVocab(word), 'bg-green-500 text-white px-2 mx-1 tooltip': isPositive(word), 'bg-red-500 text-white px-2 mx-1 tooltip': isNegative(word) }"
             class="rounded-md tooltip" v-for="word in test_text.split(' ')">&nbsp;{{ test_text ? word : '...'
