@@ -375,8 +375,8 @@ export default {
         <div class="w-full flex flex-wrap justify-center gap-y-2 break-all">
           <div
             :class="{ 'bg-gray-400 text-white px-2 mx-1 tooltip': inVocab(word), 'bg-green-500 text-white px-2 mx-1 tooltip': isPositive(word), 'bg-red-500 text-white px-2 mx-1 tooltip': isNegative(word) }"
-            class="rounded-md tooltip" v-for="word in test_text.split(' ')">&nbsp;{{ test_text ? word : '...'
-            }}&nbsp;<span v-if="data?.logLikelihood[word.toLowerCase()]"
+            class="rounded-md tooltip m-1" v-for="word in test_text.split(' ')">{{ test_text ? word : '...'
+            }}<span v-if="data?.logLikelihood[word.toLowerCase()]"
               class="tooltiptext p-2 break-words rounded-md text-sm">- {{
                 (data?.logLikelihood[word.toLowerCase()]?.['0'] * 100).toFixed(2) }} %<br> + {{
     (data?.logLikelihood[word.toLowerCase()]?.['1'] * 100).toFixed(2) }} %</span></div>
