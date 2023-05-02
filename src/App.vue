@@ -154,7 +154,7 @@ export default {
 }
 </script>
 <template>
-  <div class="grid grid-rows-[50px,1fr] overflow-hidden h-screen grid-cols-[300px,1fr]">
+  <div class="grid grid-rows-[50px,1fr] overflow-hidden h-[calc(100dvh)] grid-cols-[300px,1fr]">
     <div class="bg-gray-100 flex justify-between items-center col-span-2 w-screen border-b-2">
 
       <div @click="sidebar = !sidebar" class="group p-4 collapse md:visible hover:cursor-pointer">
