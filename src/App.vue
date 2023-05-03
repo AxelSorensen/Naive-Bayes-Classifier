@@ -202,7 +202,7 @@ export default {
         </div>
 
         <p class="text-center flex justify-center items-center px-4 max-w-[40ch]">Create a 'Routine' in the
-          top-left<font-awesome-icon icon="fa-solid fa-bars" class="text-gray-500 mx-2" size="lg" />menu.</p>
+        <font-awesome-icon icon="fa-solid fa-bars" class="text-gray-500 mx-2" size="lg" />menu.</p>
 
       </div>
       <div class="overflow-hidden sm:text-base text-sm" v-if="infoPage == 'info'">
@@ -241,7 +241,7 @@ export default {
 
       </div>
       <div v-if="infoPage == 'theory'"
-        class=" text-gray-500 gap-4 overflow-scroll sm:text-base text-sm md:p-8  p-4 text-center flex flex-col items-center">
+        class=" text-gray-500 gap-4 overflow-scroll sm:text-base text-sm md:p-8  p-4 px-4 text-center flex flex-col items-center">
         <div class="flex flex-col items-center max-w-[40ch]">
           <p class="mb-2 text-gray-500 ">A <b>Naive Bayes Classifier</b> is a simple model that can be used to predict a
             given sentence's probability of belonging to a certain class.</p>
