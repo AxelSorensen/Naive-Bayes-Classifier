@@ -5,4 +5,7 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   base: '/Naive-Bayes-Classifier/',
   plugins: [vue()],
+  optimizeDeps: {
+    exclude: ['vue-mathjax']
+  }
 })
