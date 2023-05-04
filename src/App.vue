@@ -144,14 +144,28 @@ export default {
 
     },
     async importJSON(e) {
-      // Read the file
-      for (let i = 0; i < e.target.files.length; i++) {
-        let reader = new FileReader();
+      let element = document.createElement('input');
+      element.setAttribute('type', 'file');
 
-        // Setup the callback event to run when the file is read
-        reader.onload = this.jsonCallback;
-        await reader.readAsText(e.target.files[i]);
-      }
+      element.style.display = 'none';
+      element.multiple = true;
+      document.body.appendChild(element);
+
+      element.click();
+      element.addEventListener('change', async (e) => {
+        for (let i = 0; i < e.target.files.length; i++) {
+          let reader = new FileReader();
+
+          // Setup the callback event to run when the file is read
+          reader.onload = this.jsonCallback;
+          await reader.readAsText(e.target.files[i]);
+        }
+      })
+
+      document.body.removeChild(element);
+      // Read the file
+
+
 
     },
     scrollToStep() {
@@ -201,8 +215,8 @@ export default {
             individual contribution to the overall sentiment prediction.</p>
         </div>
 
-        <p class="text-center flex justify-center items-center px-4 max-w-[40ch]">Create a 'Routine' in the
-        <font-awesome-icon icon="fa-solid fa-bars" class="text-gray-500 mx-2" size="lg" />menu.</p>
+        <p class="text-center justify-center items-center">Create a 'Routine' in the top-left<font-awesome-icon
+            icon="fa-solid fa-bars" class="text-gray-500 mx-2" size="lg" />menu.</p>
 
       </div>
       <div class="overflow-hidden sm:text-base text-sm" v-if="infoPage == 'info'">
@@ -241,10 +255,10 @@ export default {
 
       </div>
       <div v-if="infoPage == 'theory'"
-        class=" text-gray-500 gap-4 overflow-scroll sm:text-base text-sm md:p-8  p-4 px-4 text-center flex flex-col items-center">
+        class=" text-gray-500 gap-4 overflow-y-scroll sm:text-base text-sm md:p-8  p-4 px-4 text-center flex flex-col items-center">
         <div class="flex flex-col items-center max-w-[40ch]">
           <p class="mb-2 text-gray-500 ">A <b>Naive Bayes Classifier</b> is a simple model that can be used to predict a
-            given sentence's probability of belonging to a certain class.</p>
+            sentence's probability of belonging to a certain class.</p>
 
           <p class="mb-2 text-gray-500 ">The 'Naive' in 'Naive Bayes' refers to the fact that some simplifying assumptions
             need to be made:</p>
@@ -254,12 +268,17 @@ export default {
             different to the model.</p>
           <br>
           <p><b>The Naive Bayes assumption</b> assumes that the probability of a word occurring is independent of the
-            context it appears in.</p>
+            context it appears in. This is rarely true in real life.</p>
           <br>
           <p>Given a document <i>d</i> the most probable class <i>c</i> is determined by the equation:</p>
           <br>
           <math-jax class="text-center"
             latex="        \hat{c} = \underset{c \in C}{\operatorname{argmax}} \;\;\; \overbrace{P(c)}^\text{prior} \;  \overbrace{P(d\mid c)}^\text{likelihood} " />
+          <br>
+
+          <p>Where <b>P(c)</b> is the probability of a certain class <i>c</i> occurring and <b>P(d | c)</b> is the
+            likelihood of document <b>d</b> occurring in class <b>c</b>. This calculation is based on the training
+            examples that the model has seen so far. </p>
           <br>
           <p>A document can be a word, a sentence or a body of text. The document <i>d</i> can be represented as the
             number of words it contains:</p>
@@ -267,13 +286,11 @@ export default {
           <math-jax class="text-center"
             latex="        \hat{c} = \underset{c \in C}{\operatorname{argmax}} \;\;\; \overbrace{P(c)}^\text{prior} \;  \overbrace{P(f_1,f_2,...,f_n\mid c)}^\text{likelihood} " />
           <br>
-          <p>The prior probability is the probability of a certain class <i>c</i> occurring. This is based on the training
-            examples that the model has seen so far. The prior probability can be calculated by dividing the number of
+          <p><b>The prior probability</b> can be calculated by dividing the number of
             documents in the training examples in class <i>c</i> by the total number of documents: </p>
-          <br>
           <math-jax class="text-center" latex="\hat{P}(c)=\frac{N_{c}}{N_{doc}}" />
           <br>
-          <p>The likelihood of a given word <i>w<sub>i</sub> </i> occuring given a document of class <i>c</i> can be
+          <p><b>The likelihood</b> of a given word <i>w<sub>i</sub> </i> occuring given a document of class <i>c</i> can be
             defined by:</p>
           <br>
           <math-jax class="text-center"
@@ -285,9 +302,9 @@ export default {
             <i>c</i> plus the length of the vocabulary V (the number of unique words in all documents of all classes)
           </p>
           <br>
-          <p>In order to predict the sentiment of a sentence <i>s</i> , for each class<i>c</i> the prior probability of
-            class c is multiplied by the likelihood of each word in the sentence, belonging to class <i>c</i>. Sentence
-            <i>s</i> is most likely to belong to the class that returns the highest value. These values are not
+          <p>In order to predict the sentiment of a sentence <i>s</i> , for each class <i>c</i>, the prior probability of
+            class <i>c</i> is multiplied by the likelihood of each word in the sentence belonging to class <i>c</i>. Sentence
+            <i>s</i> is then most likely to belong to the class that returns the highest value. These values are not
             probabilities, so in order to convert them into a probability distribution, a softmax function is used.
           </p>
           <br>
@@ -373,7 +390,7 @@ export default {
           <font-awesome-icon icon="fa-solid fa-arrow-down" class="text-gray-400" size="md" />
         </div>
         <div class="overflow-y-scroll w-[calc(100%+7px)]">
-          <div class="flex flex-col gap-2 overflow-y-scroll w-[calc(100%+7px)]">
+          <div class="flex flex-col gap-2">
 
             <div v-for="routine in routines" class="flex items-center gap-4">
               <div @click="() => setRoutine(routine)"
@@ -398,11 +415,11 @@ export default {
           </div>
 
         </div>
-        <input type="file" ref="fileupload" multiple
-          class="w-[calc(100%)] custom-file-input h-14 bg-gray-200 border-2 border-dashed border-gray-500 rounded-md cursor-pointer hover:bg-gray-300  text-gray-500"
-          @change="(e) => importJSON(e)" />
+        <div type="file" ref="fileupload" multiple
+          class="w-[calc(100%)] custom-file-input p-4 bg-gray-200 border-2 border-dashed border-gray-500 rounded-md cursor-pointer flex justify-center items-center hover:bg-gray-300  text-gray-500"
+          @click="(e) => importJSON(e)">Import JSON</div>
         <div>
-          <div class="bg-blue-400 text-white w-full text-center p-2 rounded-md hover:bg-blue-500 cursor-pointer"
+          <div class="bg-blue-400 text-white w-full text-center p-4 md:p-2 rounded-md hover:bg-blue-500 cursor-pointer"
             @click="createRoutine">Create Routine</div>
         </div>
       </div>
@@ -415,7 +432,7 @@ export default {
         </div>
         <p class="text-center text-gray-500">Steps</p>
 
-        <div class="flex-col flex overflow-scroll w-[calc(100%+7px)] gap-2 place-items-start" ref="scrollToMe">
+        <div class="flex-col flex overflow-y-scroll w-[calc(100%+7px)] gap-2 place-items-start" ref="scrollToMe">
           <div class="flex flex-col w-full gap-2 h-full">
             <div v-if="steps.length == 0" class="items-center flex flex-col gap-4 w-full overflow-hidden">
               <p class="text-sm text-center text-gray-400 max-w-[60ch]">Adding a step allows you to save the current state
@@ -444,14 +461,15 @@ export default {
             placeholder="Add Step Title (Optional)" />
           <textarea v-model="comment" class="w-full bg-gray-200 resize-none rounded-md h-48 outline-none p-4 text-sm"
             placeholder="Add a comment, observation, instruction or thought etc. (Optional)" />
-          <div class="bg-blue-400 text-white w-full text-center p-2 rounded-md hover:bg-blue-500 cursor-pointer"
+          <div class="bg-blue-400 text-white w-full text-center p-4 md:p-2 rounded-md hover:bg-blue-500 cursor-pointer"
             @click="addStep">Add step</div>
           <div class="flex gap-4">
             <input v-model="routineTitle"
               class="w-full bg-gray-200 resize-none rounded-md outline-none p-2 border-2 border-gray-200 text-sm"
               :class="{ 'border-2 border-red-400': routineNameError }" placeholder="Routine Name"
               @input="routineNameError = false" />
-            <div class="hover:bg-purple-600 w-28 bg-purple-500 text-white text-center p-2 rounded-md cursor-pointer"
+            <div
+              class="hover:bg-purple-600 w-28 bg-purple-500 text-white text-center p-4 md:p-2 rounded-md cursor-pointer"
               @click="() => {
                   if (routineTitle) { saveRoutine() } else {
                     routineNameError = true;
@@ -471,7 +489,7 @@ export default {
           <div class="w-full flex flex-col h-full">
             <p class="bg-green-500 text-white text-center p-2 rounded-t-md">Positive</p>
             <div class="overflow-hidden w-full bg-gray-100 rounded-md p-4 gap-4 flex-col flex h-full">
-              <input class="w-full rounded-md bg-gray-200 outline-none p-2" type="search" @keydown.enter="addPosExample"
+              <input class="w-full rounded-md bg-gray-200 outline-none p-2" type="text" @keydown.enter="addPosExample"
                 enterkeyhint="done" :value="positive_input" @input="e => updatePosInput(e)">
               <div class="gap-x-2 overflow-y-scroll flex-wrap flex ">
                 <template v-for="(example, index) in examples.slice().reverse()">
@@ -488,7 +506,7 @@ export default {
           <div class="w-full flex flex-col h-full">
             <p class="bg-red-500 text-white text-center p-2 rounded-t-md">Negative</p>
             <div class="overflow-hidden w-full bg-gray-100 rounded-md p-4 gap-4 flex-col flex h-full">
-              <input class="w-full rounded-md bg-gray-200 outline-none p-2" type="search" @keydown.enter="addNegExample"
+              <input class="w-full rounded-md bg-gray-200 outline-none p-2" type="text" @keydown.enter="addNegExample"
                 enterkeyhint="done" :value="negative_input" @input="e => updateNegInput(e)">
               <div class="gap-x-2  overflow-y-scroll flex-wrap flex w-[calc(100%+7px)]">
                 <template v-for="example in examples.slice().reverse()">
@@ -542,4 +560,4 @@ export default {
         </div>
       </div>
     </div>
-</div></template>
+  </div></template>
