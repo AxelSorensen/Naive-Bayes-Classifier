@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/Naive-Bayes-Classifier/sw.js', { scope: '/Naive-Bayes-Classifier/' })})}
