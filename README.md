@@ -2,6 +2,8 @@
 
 A Vue 3 app that classifies text as spam or not using a Naive Bayes classifier implemented from scratch.
 
+![Naive-Bayes-Classifier screenshot](docs/screenshot.png)
+
 ## Features
 
 - 🧮 **Naive Bayes from scratch** — classification logic lives in `src/JS/SpamClassifier.js`, no ML library dependency
