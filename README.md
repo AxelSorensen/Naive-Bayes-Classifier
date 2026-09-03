@@ -35,3 +35,5 @@ Then open the printed local URL (default Vite port, typically [http://localhost:
 ## Status
 
 🧪 Educational demo — a single hand-rolled classifier intended to illustrate how Naive Bayes works, not a production spam filter.
+
+✅ Runs cleanly — `npm install && npm run build` verified working as of 2026-09-03 (Vite + PWA build succeeds with no errors).
